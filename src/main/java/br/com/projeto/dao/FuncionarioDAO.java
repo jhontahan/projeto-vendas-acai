@@ -164,6 +164,7 @@ public class FuncionarioDAO {
                if(funcionario != null){
                    JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistema!");
                    Frmmenu menu = new Frmmenu();
+                   menu.usuarioLogado = funcionario;
                    menu.setVisible(true);
                }
                
