@@ -32,7 +32,7 @@ public class Funcionarios implements Serializable {
     
     private String cpf;
     
-    private String email;
+    private String login;
     
     private String senha;
     
@@ -93,12 +93,12 @@ public class Funcionarios implements Serializable {
         this.cpf = cpf;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getSenha() {

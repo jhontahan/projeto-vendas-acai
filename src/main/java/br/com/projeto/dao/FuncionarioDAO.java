@@ -87,6 +87,33 @@ public class FuncionarioDAO {
          
           return lista;
        }
+       
+       @SuppressWarnings("unchecked")
+       public Funcionarios findByLogin(String login) {
+           String sql = "SELECT DISTINCT f FROM Funcionarios f "
+                        + " WHERE 1 = 1";
+           
+           if(login != null){
+               sql += " AND f.login LIKE :login";
+           }
+                  
+//           sql += " ORDER BY f.nome ASC";
+          
+          Query q = entityManager.createQuery(sql, Funcionarios.class);
+          if(login != null){
+              q.setParameter("login", login);
+          }
+            Funcionarios funcionario = null;
+           try {
+                funcionario = (Funcionarios) q.getSingleResult();
+
+           } catch (Exception e) {
+               funcionario = null;
+               return funcionario;
+           }
+         
+          return funcionario;
+       }
 
        public void persist(Funcionarios cliente) {
          try {
@@ -136,13 +163,13 @@ public class FuncionarioDAO {
        
        //Método efetua login
        
-       public void efetuarLogin(String email, String senha) throws Exception{
+       public void efetuarLogin(String login, String senha) throws Exception{
            try {
                String sql = "SELECT DISTINCT f FROM Funcionarios f "
                         + " WHERE 1 = 1";
            
-                if(email != null){
-                    sql += " AND f.email LIKE :email";
+                if(login != null){
+                    sql += " AND f.login LIKE :login";
                 }
                 
                 if(senha != null){
@@ -152,8 +179,8 @@ public class FuncionarioDAO {
 //                sql += " ORDER BY f.nome ASC";
 
                Query q = entityManager.createQuery(sql, Funcionarios.class);
-               if(email != null){
-                   q.setParameter("email", email);
+               if(login != null){
+                   q.setParameter("login", login);
                }
                if(senha != null){
                    q.setParameter("senha", senha);
@@ -169,6 +196,7 @@ public class FuncionarioDAO {
                }
                
            } catch (Exception e) {
+               
              throw new Exception(e);
                 
            }

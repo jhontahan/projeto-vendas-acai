@@ -31,7 +31,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        campoEmail = new javax.swing.JTextField();
+        campoLogin = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         campoSenha = new javax.swing.JPasswordField();
         jLabel17 = new javax.swing.JLabel();
@@ -65,10 +65,10 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        campoEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        campoLogin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Email:");
+        jLabel5.setText("Login:");
 
         campoSenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -100,7 +100,7 @@ public class FrmLogin extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoEmail)
+                            .addComponent(campoLogin)
                             .addComponent(campoSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(302, 302, 302)
@@ -116,7 +116,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -135,10 +135,10 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
        //botao entrar
         try {
-            String email = campoEmail.getText();
+            String login = campoLogin.getText();
             String senha = campoSenha.getText();
             
-            FuncionarioDAO.getInstance().efetuarLogin(email, senha);
+            FuncionarioDAO.getInstance().efetuarLogin(login, senha);
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Email ou senha inválidos!");
@@ -184,7 +184,7 @@ public class FrmLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrar;
     private javax.swing.JButton btnSair;
-    private javax.swing.JTextField campoEmail;
+    private javax.swing.JTextField campoLogin;
     private javax.swing.JPasswordField campoSenha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;

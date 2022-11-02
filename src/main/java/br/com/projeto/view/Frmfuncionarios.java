@@ -35,10 +35,6 @@ public class Frmfuncionarios extends javax.swing.JFrame {
         
         lista = FuncionarioDAO.getInstance().findBy(null);
         
-        for (Funcionarios f : lista){
-            System.out.println(f.getNome());
-        }
-        
         DefaultTableModel dados = (DefaultTableModel) tabelaFuncionarios.getModel();
         dados.setNumRows(0);
         
@@ -48,7 +44,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
                 f.getNome(),
                 f.getRg(),
                 f.getCpf(),
-                f.getEmail(),
+                f.getLogin(),
                 f.getSenha(),
                 f.getCargo(),
                 f.getNivelAcesso(),
@@ -91,7 +87,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         campoNome = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        campoEmail = new javax.swing.JTextField();
+        campoLogin = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         campoCelular = new javax.swing.JFormattedTextField();
         campoTelefone = new javax.swing.JFormattedTextField();
@@ -185,10 +181,10 @@ public class Frmfuncionarios extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Celular:");
 
-        campoEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        campoLogin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Email:");
+        jLabel5.setText("Login:");
 
         try {
             campoCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ##### - ####")));
@@ -308,7 +304,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
                                     .addComponent(jLabel8))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoEmail)
+                                    .addComponent(campoLogin)
                                     .addGroup(painel_dadosLayout.createSequentialGroup()
                                         .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel12)
@@ -323,7 +319,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_dadosLayout.createSequentialGroup()
                                                 .addGap(6, 6, 6)
                                                 .addComponent(campoCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel10))
@@ -389,14 +385,19 @@ public class Frmfuncionarios extends javax.swing.JFrame {
                 .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painel_dadosLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(campoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painel_dadosLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -580,7 +581,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
                 f.getNome(),
                 f.getRg(),
                 f.getCpf(),
-                f.getEmail(),
+                f.getLogin(),
                 f.getSenha(),
                 f.getCargo(),
                 f.getNivelAcesso(),
@@ -606,10 +607,17 @@ public class Frmfuncionarios extends javax.swing.JFrame {
 //       }
        
 //       funcionario.setId(campoCodigo != null ? Long.parseLong(campoCodigo.getText()) : null);
+       Funcionarios f = FuncionarioDAO.getInstance().findByLogin(campoLogin.getText());
+       
+       if(f != null){
+           JOptionPane.showMessageDialog(null, "Login já cadastrado na base de dados!");
+           return;
+       }
+
        funcionario.setNome(campoNome.getText());
        funcionario.setRg(campoRG.getText());
        funcionario.setCpf(campoCPF.getText());
-       funcionario.setEmail(campoEmail.getText());
+       funcionario.setLogin(campoLogin.getText());
        funcionario.setSenha(campoSenha.getText());
        funcionario.setCargo(campoCargo.getText());
        funcionario.setNivelAcesso(comboAcesso.getSelectedItem().toString());
@@ -700,7 +708,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
        funcionario.setNome(campoNome.getText());
        funcionario.setRg(campoRG.getText());
        funcionario.setCpf(campoCPF.getText());
-       funcionario.setEmail(campoEmail.getText());
+       funcionario.setLogin(campoLogin.getText());
        funcionario.setSenha(campoSenha.getText());
        funcionario.setCargo(campoCargo.getText());
        funcionario.setNivelAcesso(comboAcesso.getSelectedItem().toString());
@@ -741,7 +749,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
                 f.getNome(),
                 f.getRg(),
                 f.getCpf(),
-                f.getEmail(),
+                f.getLogin(),
                 f.getSenha(),
                 f.getCargo(),
                 f.getNivelAcesso(),
@@ -765,7 +773,7 @@ public class Frmfuncionarios extends javax.swing.JFrame {
         campoNome.setText(f.getNome());
         campoRG.setText(f.getRg());
         campoCPF.setText(f.getCpf());
-        campoEmail.setText(f.getEmail());
+        campoLogin.setText(f.getLogin());
         campoSenha.setText(f.getSenha());
         campoCargo.setText(f.getCargo());
         comboAcesso.setSelectedItem(f.getNivelAcesso());
@@ -829,8 +837,8 @@ public class Frmfuncionarios extends javax.swing.JFrame {
     private javax.swing.JTextField campoCidade;
     private javax.swing.JTextField campoCodigo;
     private javax.swing.JTextField campoComplemento;
-    private javax.swing.JTextField campoEmail;
     private javax.swing.JTextField campoEndereco;
+    private javax.swing.JTextField campoLogin;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoNumero;
     private javax.swing.JFormattedTextField campoRG;
