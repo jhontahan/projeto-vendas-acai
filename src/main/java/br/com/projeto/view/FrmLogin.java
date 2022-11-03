@@ -71,6 +71,11 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel5.setText("Login:");
 
         campoSenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        campoSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoSenhaActionPerformed(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("Senha:");
@@ -145,6 +150,18 @@ public class FrmLogin extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnEntrarActionPerformed
+
+    private void campoSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSenhaActionPerformed
+       try {
+            String login = campoLogin.getText();
+            String senha = campoSenha.getText();
+            
+            FuncionarioDAO.getInstance().efetuarLogin(login, senha);
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Email ou senha inválidos!");
+        }
+    }//GEN-LAST:event_campoSenhaActionPerformed
 
     /**
      * @param args the command line arguments
