@@ -138,31 +138,33 @@ public class FrmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-       //botao entrar
-        try {
-            String login = campoLogin.getText();
-            String senha = campoSenha.getText();
-            
-            FuncionarioDAO.getInstance().efetuarLogin(login, senha);
-            this.dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Email ou senha inválidos!");
-        }
-        
+       logar();
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void campoSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSenhaActionPerformed
-       try {
+      logar();
+    }//GEN-LAST:event_campoSenhaActionPerformed
+
+    //Método para o usuário logar no sistema.
+    private void logar(){
+        
+        final BarraCarregar carregar = new BarraCarregar();
+        
+         try {
+            carregar.setVisible(true);
             String login = campoLogin.getText();
             String senha = campoSenha.getText();
             
             FuncionarioDAO.getInstance().efetuarLogin(login, senha);
+            carregar.dispose();
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Email ou senha inválidos!");
+            carregar.dispose();
         }
-    }//GEN-LAST:event_campoSenhaActionPerformed
-
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
