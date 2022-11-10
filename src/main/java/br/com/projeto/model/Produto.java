@@ -6,7 +6,6 @@ package br.com.projeto.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -83,5 +81,8 @@ public class Produto implements Serializable {
         return Objects.equals(this.id, other.id);
     }
     
-    
+    @Override
+    public String toString(){
+        return this.getDescricao();
+    }
 }
