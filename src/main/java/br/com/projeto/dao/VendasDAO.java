@@ -8,8 +8,6 @@ package br.com.projeto.dao;
  *
  * @author jhona
  */
-import br.com.projeto.model.Funcionarios;
-import br.com.projeto.model.Produto;
 import static br.com.projeto.model.Produto_.descricao;
 import br.com.projeto.model.Vendas;
 import java.util.Date;
@@ -89,6 +87,16 @@ public class VendasDAO {
           List<Vendas> lista = q.getResultList().stream().distinct().toList();
          
           return lista;
+       }
+       
+       public Long ultimaVenda(){
+           String sql = "select max(v.id) from Vendas as v";
+           
+           Query q = entityManager.createQuery(sql, Vendas.class);
+           
+           System.out.println(q);
+           
+           return (Long) q.getSingleResult();
        }
        
        public void persist(Vendas venda) {
