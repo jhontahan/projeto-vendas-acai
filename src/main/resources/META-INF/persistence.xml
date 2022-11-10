@@ -4,6 +4,8 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>br.com.projeto.model.Funcionarios</class>
     <class>br.com.projeto.model.Produto</class>
+    <class>br.com.projeto.model.Vendas</class>
+    <class>br.com.projeto.model.ItemVenda</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bdvendas?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="bdvendas"/>
