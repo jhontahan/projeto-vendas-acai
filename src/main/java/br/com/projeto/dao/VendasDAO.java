@@ -8,8 +8,9 @@ package br.com.projeto.dao;
  *
  * @author jhona
  */
-import static br.com.projeto.model.Produto_.descricao;
 import br.com.projeto.model.Vendas;
+import br.com.projeto.util.CalendarUtil;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -69,19 +70,28 @@ public class VendasDAO {
        }
        
        @SuppressWarnings("unchecked")
-       public List<Vendas> findBy(Date dataVenda) {
+       public List<Vendas> findBy(Date dataInicio, Date dataFim) {
            String sql = "SELECT DISTINCT v FROM Vendas v "
                         + " WHERE 1 = 1";
            
-           if(dataVenda != null){
-               sql += " AND v.dataVenda >= :dataVenda AND v.dataVenda < :dataVenda";
+           if(dataInicio != null){
+               sql += " AND v.dataVenda >= :dataVenda";
+           }
+           
+           if (dataFim != null){
+               sql += " AND v.dataFim < :dataFim";
            }
                   
            sql += " ORDER BY v.dataVenda DESC";
           
           Query q = entityManager.createQuery(sql, Vendas.class);
-          if(descricao != null){
-              q.setParameter("dataVenda", dataVenda);
+          if(dataInicio != null){
+              q.setParameter("dataVenda", dataInicio);
+          }
+          if(dataFim != null){
+            Calendar calendar = CalendarUtil.getDateOnly(dataFim);
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            q.setParameter("dataFim", calendar.getTime());
           }
    
           List<Vendas> lista = q.getResultList().stream().distinct().toList();
@@ -93,8 +103,6 @@ public class VendasDAO {
            String sql = "select max(v.id) from Vendas as v";
            
            Query q = entityManager.createQuery(sql, Vendas.class);
-           
-           System.out.println(q);
            
            return (Long) q.getSingleResult();
        }
