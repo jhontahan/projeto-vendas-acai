@@ -13,11 +13,13 @@ import br.com.projeto.util.CalendarUtil;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 public class VendasDAO {
@@ -59,7 +61,7 @@ public class VendasDAO {
        
        @SuppressWarnings("unchecked")
        public List<Vendas> findAll() {
-           String sql = "SELECT DISTINCT v FROM Venda v "
+           String sql = "SELECT DISTINCT v FROM Vendas v "
                         + " WHERE 1 = 1";
            sql += " ORDER BY v.dataVenda DESC";
           
@@ -71,22 +73,27 @@ public class VendasDAO {
        
        @SuppressWarnings("unchecked")
        public List<Vendas> findBy(Date dataInicio, Date dataFim) {
-           String sql = "SELECT DISTINCT v FROM Vendas v "
-                        + " WHERE 1 = 1";
+           String sql = "SELECT DISTINCT v FROM Vendas v" +
+                        " LEFT JOIN FETCH v.itensVenda iv" +
+                         " WHERE 1 = 1";
            
            if(dataInicio != null){
-               sql += " AND v.dataVenda >= :dataVenda";
+               sql += " AND v.dataVenda >= :dataInicio";
            }
            
            if (dataFim != null){
-               sql += " AND v.dataFim < :dataFim";
+               sql += " AND v.dataVenda < :dataFim";
            }
                   
            sql += " ORDER BY v.dataVenda DESC";
+           
+           System.err.println(sql);
+           System.out.println("Data inicio: " + dataInicio);
+           System.out.println("Data fim: " + dataFim);
           
-          Query q = entityManager.createQuery(sql, Vendas.class);
+          TypedQuery<Vendas> q = entityManager.createQuery(sql, Vendas.class);
           if(dataInicio != null){
-              q.setParameter("dataVenda", dataInicio);
+              q.setParameter("dataInicio", dataInicio);
           }
           if(dataFim != null){
             Calendar calendar = CalendarUtil.getDateOnly(dataFim);
@@ -94,7 +101,7 @@ public class VendasDAO {
             q.setParameter("dataFim", calendar.getTime());
           }
    
-          List<Vendas> lista = q.getResultList().stream().distinct().toList();
+          List<Vendas> lista = q.getResultList().stream().distinct().collect(Collectors.toList());
          
           return lista;
        }

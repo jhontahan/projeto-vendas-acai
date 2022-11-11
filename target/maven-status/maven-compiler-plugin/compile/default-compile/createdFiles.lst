@@ -5,6 +5,7 @@ br\com\projeto\view\FrmLogin$1.class
 br\com\projeto\view\Frmvendas$3.class
 br\com\projeto\view\Frmcliente$2.class
 br\com\projeto\view\Frmfuncionarios$9.class
+br\com\projeto\util\CalendarUtil.class
 br\com\projeto\view\Frmprodutos$7.class
 br\com\projeto\view\FrmLogin.class
 br\com\projeto\view\Frmfuncionarios$1.class
@@ -12,6 +13,7 @@ br\com\projeto\model\Produto_.class
 br\com\projeto\view\Frmvendas$1.class
 br\com\projeto\view\Frmprodutos$9.class
 br\com\projeto\view\Frmcliente.class
+br\com\projeto\dao\VendasDAO.class
 br\com\projeto\model\Produto.class
 br\com\projeto\view\Frmfuncionarios$4.class
 br\com\projeto\view\BarraCarregar$1.class

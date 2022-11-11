@@ -5,9 +5,16 @@
 package br.com.projeto.view;
 
 import br.com.projeto.dao.ProdutoDAO;
+import br.com.projeto.dao.VendasDAO;
 import br.com.projeto.model.Produto;
+import br.com.projeto.model.Vendas;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang3.StringUtils;
@@ -407,8 +414,24 @@ public class Frmvendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        // Finalizar venda
-        
+
+        //Busca por datas.
+//        try {
+//            // Finalizar venda
+//            
+//            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+//            Date data = formato.parse("11/11/2022");
+//            
+//            Date dataFim = formato.parse("12/11/2022");
+//            
+//            List<Vendas> listaProdutos = VendasDAO.getInstance().findBy(data, dataFim);
+//            
+//            double soma = listaProdutos.stream().mapToDouble(Vendas::getTotal_venda).sum();
+//            
+//            System.out.println("soma: " + soma);
+//        } catch (ParseException ex) {
+//            Logger.getLogger(Frmvendas.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
