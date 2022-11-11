@@ -426,26 +426,12 @@ public class Frmvendas extends javax.swing.JFrame {
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
         // Adicionando ITENS no carrinho.
-        preco = Double.parseDouble(txtPreco.getText());
-        
-        subTotal = 1 * preco;
-        
-        total += subTotal;
-        
-        txtTotal.setText(String.valueOf(total));
-        
-        carrinho = (DefaultTableModel) tblCarrinho.getModel();
-        
-        Produto produto = (Produto) cmbProdutos.getSelectedItem();
-        
-        carrinho.addRow(new Object[]{
-            produto.getId(),
-            produto.getDescricao(),
-            !StringUtils.isBlank(txtNome.getText()) ? txtNome.getText() : "Não informado",
-            txtPreco.getText()
-        });
-        
-        txtPreco.setText("");
+        if(!StringUtils.isBlank(txtPreco.getText())){
+                adicionarItem();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Adicione um preço!");
+        }
         
     }//GEN-LAST:event_btnAddItemActionPerformed
 
@@ -479,7 +465,19 @@ public class Frmvendas extends javax.swing.JFrame {
 
     private void txtPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecoKeyPressed
         if(evt.getKeyCode()== KeyEvent.VK_ENTER){
-            preco = Double.parseDouble(txtPreco.getText());
+            if(!StringUtils.isBlank(txtPreco.getText())){
+                adicionarItem();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Adicione um preço!");
+            }
+                
+        }
+        
+    }//GEN-LAST:event_txtPrecoKeyPressed
+
+    private void adicionarItem(){
+        preco = Double.parseDouble(txtPreco.getText());
         
             subTotal = 1 * preco;
 
@@ -499,10 +497,8 @@ public class Frmvendas extends javax.swing.JFrame {
             });
             
             txtPreco.setText("");
-        }
-        
-    }//GEN-LAST:event_txtPrecoKeyPressed
-
+    }
+    
     /**
      * @param args the command line arguments
      */
