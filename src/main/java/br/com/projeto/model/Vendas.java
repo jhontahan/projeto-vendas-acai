@@ -37,10 +37,10 @@ public class Vendas implements Serializable {
     private Date dataVenda;
     
     @Column(name="total_venda")
-    private double total_venda;
+    private double totalVenda;
     
     @Column(name="tipo_venda")
-    private String tipo_venda;
+    private String tipoVenda;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "venda")
     private List<ItemVenda> itensVenda;
@@ -71,22 +71,6 @@ public class Vendas implements Serializable {
         this.dataVenda = dataVenda;
     }
 
-    public double getTotal_venda() {
-        return total_venda;
-    }
-
-    public void setTotal_venda(double total_venda) {
-        this.total_venda = total_venda;
-    }
-
-    public String getTipo_venda() {
-        return tipo_venda;
-    }
-
-    public void setTipo_venda(String tipo_venda) {
-        this.tipo_venda = tipo_venda;
-    }
-
     public List<ItemVenda> getItensVenda() {
         return itensVenda;
     }
@@ -94,8 +78,22 @@ public class Vendas implements Serializable {
     public void setItensVenda(List<ItemVenda> itensVenda) {
         this.itensVenda = itensVenda;
     }
-    
-    
+
+    public double getTotalVenda() {
+        return totalVenda;
+    }
+
+    public void setTotalVenda(double totalVenda) {
+        this.totalVenda = totalVenda;
+    }
+
+    public String getTipoVenda() {
+        return tipoVenda;
+    }
+
+    public void setTipoVenda(String tipoVenda) {
+        this.tipoVenda = tipoVenda;
+    }
 
     @Override
     public int hashCode() {

@@ -119,7 +119,7 @@ public class VendasDAO {
             entityManager.getTransaction().begin();
             entityManager.persist(venda);
             entityManager.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!");
+            //JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!");
          } catch (Exception ex) {
             ex.printStackTrace();
             entityManager.getTransaction().rollback();

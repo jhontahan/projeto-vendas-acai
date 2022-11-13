@@ -4,17 +4,31 @@
  */
 package br.com.projeto.view;
 
+import br.com.projeto.dao.ItemVendaDAO;
 import br.com.projeto.dao.ProdutoDAO;
 import br.com.projeto.dao.VendasDAO;
+import br.com.projeto.model.Funcionarios;
+import br.com.projeto.model.ItemVenda;
 import br.com.projeto.model.Produto;
 import br.com.projeto.model.Vendas;
 import java.awt.event.KeyEvent;
-import java.text.ParseException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +42,14 @@ public class Frmvendas extends javax.swing.JFrame {
     private Boolean modoEdicao = false;
     
     double total, preco, subTotal;
+    
+    Vendas vendas = new Vendas();
+    
+    Boolean novaVenda = false;
+    
+    Funcionarios funcionario = new Funcionarios();
+    
+    List<ItemVenda> itens = new ArrayList<>();
     
     DefaultTableModel carrinho;
 
@@ -44,6 +66,7 @@ public class Frmvendas extends javax.swing.JFrame {
      */
     public Frmvendas() {
         initComponents();
+        btnSegundaVia.setVisible(false);
     }
 
     /**
@@ -70,7 +93,7 @@ public class Frmvendas extends javax.swing.JFrame {
         tblCarrinho = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbTipoVenda = new javax.swing.JComboBox<>();
         txtDinheiro = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnAddItem1 = new javax.swing.JButton();
@@ -81,6 +104,7 @@ public class Frmvendas extends javax.swing.JFrame {
         txtTroco = new javax.swing.JTextField();
         btnFinalizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnSegundaVia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela de Vendas");
@@ -237,8 +261,8 @@ public class Frmvendas extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Forma de pagamento:");
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DINHEIRO", "PIX", "DÉBITO", "CRÉDITO" }));
+        cmbTipoVenda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbTipoVenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DINHEIRO", "PIX", "DÉBITO", "CRÉDITO" }));
 
         txtDinheiro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDinheiro.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -269,7 +293,7 @@ public class Frmvendas extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbTipoVenda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddItem1)
@@ -281,7 +305,7 @@ public class Frmvendas extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbTipoVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -355,6 +379,14 @@ public class Frmvendas extends javax.swing.JFrame {
             }
         });
 
+        btnSegundaVia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnSegundaVia.setText("IMPRIMIR 2 VIA");
+        btnSegundaVia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSegundaViaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -372,6 +404,8 @@ public class Frmvendas extends javax.swing.JFrame {
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSegundaVia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFinalizar)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelar)
@@ -393,7 +427,8 @@ public class Frmvendas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
-                    .addComponent(btnFinalizar))
+                    .addComponent(btnFinalizar)
+                    .addComponent(btnSegundaVia))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -414,7 +449,47 @@ public class Frmvendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-
+        //Realização da venda.
+        itens = new ArrayList<>();
+        BarraCarregar carregar = new BarraCarregar();
+        carregar.setVisible(true);
+        
+        
+        vendas.setNomeCliente(txtNome.getText());
+        vendas.setDataVenda(new Date());
+        vendas.setTotalVenda(total);
+        vendas.setTipoVenda((String) cmbTipoVenda.getSelectedItem());
+        
+        VendasDAO.getInstance().persist(vendas);
+        
+        //Retorna o id última venda realizada;
+        vendas.setId(VendasDAO.getInstance().ultimaVenda());
+        
+        //Cadastrando os produtos na tabela itemVendas
+        for(int i = 0; i < carrinho.getRowCount(); i++){
+            ItemVenda item = new ItemVenda();
+            Produto prod = ProdutoDAO.getInstance().getById(Long.parseLong(carrinho.getValueAt(i, 0).toString()));
+            
+            item.setVenda(vendas);
+            item.setProduto(prod);
+            item.setSubTotal(Double.parseDouble(carrinho.getValueAt(i, 3).toString()));
+            
+            ItemVendaDAO.getInstance().persist(item);
+            
+            itens.add(item);
+            
+        }
+        
+        this.imprimir(texto());
+        
+        carregar.setVisible(false);
+        
+        JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!");
+        
+        btnFinalizar.setEnabled(false);
+        btnSegundaVia.setVisible(true);
+        btnCancelar.setText("NOVA VENDA");
+        
         //Busca por datas.
 //        try {
 //            // Finalizar venda
@@ -435,6 +510,61 @@ public class Frmvendas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
+    public String texto(){
+        String texto = cabecalho();
+        
+        if (!StringUtils.isBlank(txtNome.getText())){
+            texto += "Cliente: " + txtNome.getText() + "\n\r";
+        }
+        else{
+            texto += "Cliente: Nao Informado\n\r";
+        }
+        
+        texto += "ITEM (V.UNIT)                           Total\n\r";
+        
+        for (ItemVenda item : itens){
+            texto += item.getProduto().getDescricao() + "                                    " + item.getSubTotal()+"\n\r";
+        }
+        texto += "-----------------------------------------------\n\r";
+        
+        texto += "TOTAL A PAGAR:                          " + itens.stream().mapToDouble(ItemVenda::getSubTotal).sum() + "\n\n\r";
+        
+        texto += "            *Obrigado pela preferencia* \n\r"
+                + "                   Volte Sempre!\n\r"
+                + "-----------------------------------------------\n\r"+
+                "                                    \n\r" + 
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" ;
+                
+        
+        
+        return texto;
+        
+    }
+    
+    public String cabecalho(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String horaAtual = formatter.format(new Date());
+        
+        return "             ACAI MORENA\n\r" + 
+               "            Avenida principal, 10\n\r" +
+               "            (98) 98832-3987\n\r" +
+               "            Cnpj: 222.222.222-22\n\r" +
+               "-----------------------------------------------\n\r"+
+               "      IMPRESSO EM " + horaAtual + "\n\n\r"+
+               "        ** NAO E DOCUMENTO FISCAL **\n\n\r" +
+               "                (Pedido N.: " + vendas.getId() + ")\n\n\r";
+             
+    }
+    
+    
     private void cmbProdutosAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_cmbProdutosAncestorAdded
         List<Produto> listaProdutos = ProdutoDAO.getInstance().findAll();
         
@@ -499,6 +629,11 @@ public class Frmvendas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtPrecoKeyPressed
 
+    private void btnSegundaViaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSegundaViaActionPerformed
+        this.imprimir(texto());
+        
+    }//GEN-LAST:event_btnSegundaViaActionPerformed
+
     private void adicionarItem(){
         preco = Double.parseDouble(txtPreco.getText());
         
@@ -520,6 +655,37 @@ public class Frmvendas extends javax.swing.JFrame {
             });
             
             txtPreco.setText("");
+    }
+    
+    public void imprimir(String texto) {
+        try {
+            System.err.println(texto);
+            InputStream print = new ByteArrayInputStream(texto.getBytes());
+            DocFlavor docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+
+            SimpleDoc documentoTexto = new SimpleDoc(print, docFlavor, null);
+
+            PrintService impressora = PrintServiceLookup.lookupDefaultPrintService();
+
+            PrintRequestAttributeSet printerAttributes = new HashPrintRequestAttributeSet();
+            printerAttributes.add(new JobName("Impressao", null));
+            printerAttributes.add(OrientationRequested.PORTRAIT);
+            printerAttributes.add(MediaSizeName.ISO_A4);
+
+            DocPrintJob printJob = impressora.createPrintJob();
+
+            try {
+                printJob.print(documentoTexto, (PrintRequestAttributeSet) printerAttributes);
+            } catch (PrintException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            print.close();
+
+        } catch (Exception e) {
+
+        }
+
     }
     
     /**
@@ -569,8 +735,9 @@ public class Frmvendas extends javax.swing.JFrame {
     private javax.swing.JButton btnAddItem1;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnFinalizar;
+    private javax.swing.JButton btnSegundaVia;
     private javax.swing.JComboBox<Produto> cmbProdutos;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cmbTipoVenda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

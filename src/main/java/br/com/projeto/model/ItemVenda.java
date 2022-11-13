@@ -61,7 +61,7 @@ public class ItemVenda implements Serializable {
         return produto;
     }
 
-    public void setProdutos(Produto produto) {
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
 
