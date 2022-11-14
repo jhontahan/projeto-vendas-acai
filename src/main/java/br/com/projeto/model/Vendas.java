@@ -39,8 +39,14 @@ public class Vendas implements Serializable {
     @Column(name="total_venda")
     private double totalVenda;
     
+    @Column(name="forma_pagamento")
+    private String formaPagamento;
+    
     @Column(name="tipo_venda")
     private String tipoVenda;
+    
+    @Column(name="status_venda")
+    private String status;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "venda")
     private List<ItemVenda> itensVenda;
@@ -87,6 +93,14 @@ public class Vendas implements Serializable {
         this.totalVenda = totalVenda;
     }
 
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
     public String getTipoVenda() {
         return tipoVenda;
     }
@@ -95,6 +109,16 @@ public class Vendas implements Serializable {
         this.tipoVenda = tipoVenda;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

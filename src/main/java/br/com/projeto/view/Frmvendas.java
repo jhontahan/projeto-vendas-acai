@@ -7,6 +7,8 @@ package br.com.projeto.view;
 import br.com.projeto.dao.ItemVendaDAO;
 import br.com.projeto.dao.ProdutoDAO;
 import br.com.projeto.dao.VendasDAO;
+import br.com.projeto.enuns.StatusEnum;
+import br.com.projeto.enuns.TipoVendaEnum;
 import br.com.projeto.model.Funcionarios;
 import br.com.projeto.model.ItemVenda;
 import br.com.projeto.model.Produto;
@@ -262,7 +264,7 @@ public class Frmvendas extends javax.swing.JFrame {
         jLabel9.setText("Forma de pagamento:");
 
         cmbTipoVenda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbTipoVenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DINHEIRO", "PIX", "DÉBITO", "CRÉDITO" }));
+        cmbTipoVenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DINHEIRO", "PIX", "DEBITO", "CREDITO" }));
 
         txtDinheiro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtDinheiro.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -454,11 +456,13 @@ public class Frmvendas extends javax.swing.JFrame {
         BarraCarregar carregar = new BarraCarregar();
         carregar.setVisible(true);
         
-        
+        //Setando o objeto do tipo venda.
         vendas.setNomeCliente(txtNome.getText());
         vendas.setDataVenda(new Date());
         vendas.setTotalVenda(total);
-        vendas.setTipoVenda((String) cmbTipoVenda.getSelectedItem());
+        vendas.setFormaPagamento((String) cmbTipoVenda.getSelectedItem());
+        vendas.setStatus(StatusEnum.EFETIVADA.toString());
+        vendas.setTipoVenda(TipoVendaEnum.RECEITA.toString());
         
         VendasDAO.getInstance().persist(vendas);
         
@@ -510,6 +514,21 @@ public class Frmvendas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
+     public String cabecalho(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String horaAtual = formatter.format(new Date());
+        
+        return "             ACAI MORENA\n\r" + 
+               "            Avenida principal, 10\n\r" +
+               "            (98) 98832-3987\n\r" +
+               "            Cnpj: 222.222.222-22\n\r" +
+               "-----------------------------------------------\n\r"+
+               "      IMPRESSO EM " + horaAtual + "\n\n\r"+
+               "        ** NAO E DOCUMENTO FISCAL **\n\n\r" +
+               "                (Pedido N.: " + vendas.getId() + ")\n\n\r";
+             
+    }
+    
     public String texto(){
         String texto = cabecalho();
         
@@ -519,6 +538,8 @@ public class Frmvendas extends javax.swing.JFrame {
         else{
             texto += "Cliente: Nao Informado\n\r";
         }
+        
+        texto += "Forma de pagamento: " + vendas.getTipoVenda() + "\n\r";
         
         texto += "ITEM (V.UNIT)                           Total\n\r";
         
@@ -549,20 +570,7 @@ public class Frmvendas extends javax.swing.JFrame {
         
     }
     
-    public String cabecalho(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String horaAtual = formatter.format(new Date());
-        
-        return "             ACAI MORENA\n\r" + 
-               "            Avenida principal, 10\n\r" +
-               "            (98) 98832-3987\n\r" +
-               "            Cnpj: 222.222.222-22\n\r" +
-               "-----------------------------------------------\n\r"+
-               "      IMPRESSO EM " + horaAtual + "\n\n\r"+
-               "        ** NAO E DOCUMENTO FISCAL **\n\n\r" +
-               "                (Pedido N.: " + vendas.getId() + ")\n\n\r";
-             
-    }
+   
     
     
     private void cmbProdutosAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_cmbProdutosAncestorAdded

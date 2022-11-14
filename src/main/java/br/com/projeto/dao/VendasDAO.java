@@ -72,7 +72,7 @@ public class VendasDAO {
        }
        
        @SuppressWarnings("unchecked")
-       public List<Vendas> findBy(Date dataInicio, Date dataFim) {
+       public List<Vendas> findBy(Date dataInicio, Date dataFim, String status, String tipoVenda) {
            String sql = "SELECT DISTINCT v FROM Vendas v" +
                         " LEFT JOIN FETCH v.itensVenda iv" +
                          " WHERE 1 = 1";
@@ -84,13 +84,17 @@ public class VendasDAO {
            if (dataFim != null){
                sql += " AND v.dataVenda < :dataFim";
            }
+           
+           if(status != null){
+               sql += " AND v.status LIKE :status";
+           }
+           
+           if(tipoVenda != null){
+               sql += " AND v.tipoVenda LIKE :tipo";
+           }
                   
            sql += " ORDER BY v.dataVenda DESC";
            
-           System.err.println(sql);
-           System.out.println("Data inicio: " + dataInicio);
-           System.out.println("Data fim: " + dataFim);
-          
           TypedQuery<Vendas> q = entityManager.createQuery(sql, Vendas.class);
           if(dataInicio != null){
               q.setParameter("dataInicio", dataInicio);
@@ -100,10 +104,38 @@ public class VendasDAO {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             q.setParameter("dataFim", calendar.getTime());
           }
+          if(status != null){
+              q.setParameter("status", status);
+          }
+          if(tipoVenda != null){
+              q.setParameter("tipo", tipoVenda);
+          }
    
           List<Vendas> lista = q.getResultList().stream().distinct().collect(Collectors.toList());
          
           return lista;
+       }
+       
+        @SuppressWarnings("unchecked")
+       public Vendas carregaLazzy(Vendas venda) {
+           String sql = "SELECT DISTINCT v FROM Vendas v" +
+                        " LEFT JOIN FETCH v.itensVenda iv" +
+                         " WHERE 1 = 1";
+           
+           if(venda != null){
+               sql += " AND v.id = :id";
+           }
+           
+           sql += " ORDER BY v.dataVenda DESC, v.tipoVenda ASC";
+           
+          TypedQuery<Vendas> q = entityManager.createQuery(sql, Vendas.class);
+          if(venda != null){
+              q.setParameter("id", venda.getId());
+          }
+   
+          Vendas v = q.getSingleResult();
+         
+          return v;
        }
        
        public Long ultimaVenda(){

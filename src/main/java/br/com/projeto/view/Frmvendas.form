@@ -414,8 +414,8 @@
               <StringArray count="4">
                 <StringItem index="0" value="DINHEIRO"/>
                 <StringItem index="1" value="PIX"/>
-                <StringItem index="2" value="D&#xc9;BITO"/>
-                <StringItem index="3" value="CR&#xc9;DITO"/>
+                <StringItem index="2" value="DEBITO"/>
+                <StringItem index="3" value="CREDITO"/>
               </StringArray>
             </Property>
           </Properties>
