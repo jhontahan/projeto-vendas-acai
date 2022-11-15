@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang3.StringUtils;
 
@@ -188,6 +189,11 @@ public class Frmhistorico extends javax.swing.JFrame {
                 "Código", "Data da Venda", "Cliente", "Forma de Pagamento", "Tipo de Venda", "Status da Venda", "Total da Venda"
             }
         ));
+        tblHistorico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHistoricoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblHistorico);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -305,6 +311,13 @@ public class Frmhistorico extends javax.swing.JFrame {
         lblTotal.setText("" + total);
         
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void tblHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistoricoMouseClicked
+        //Opções para detalhar ou cancelar a venda.
+        Object[] options = { "Detalhar", "Cancelar venda", "Sair" };
+        int opcao = JOptionPane.showOptionDialog(null, "Sobre a venda", "Venda", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        
+    }//GEN-LAST:event_tblHistoricoMouseClicked
 
     /**
      * @param args the command line arguments
