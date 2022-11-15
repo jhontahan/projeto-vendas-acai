@@ -238,6 +238,11 @@ public class Frmvendas extends javax.swing.JFrame {
                 "Código", "Produto", "Nome cliente", "Valor"
             }
         ));
+        tblCarrinho.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCarrinhoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCarrinho);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -447,7 +452,7 @@ public class Frmvendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        reset();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
@@ -514,6 +519,24 @@ public class Frmvendas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
+    public void reset(){
+        txtNome.setText("");
+        txtPreco.setText("");
+        txtDinheiro.setText("");
+        txtTotal.setText("");
+        txtTroco.setText("");
+        for(int i = 0; i < carrinho.getRowCount(); i++){
+             carrinho.removeRow(i);
+        }
+        total = 0;
+        subTotal = 0;
+        
+        btnSegundaVia.setVisible(false);
+        btnFinalizar.setEnabled(true);
+        btnCancelar.setText("CANCELAR VENDA");
+        
+    }
+    
      public String cabecalho(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String horaAtual = formatter.format(new Date());
@@ -641,6 +664,16 @@ public class Frmvendas extends javax.swing.JFrame {
         this.imprimir(texto());
         
     }//GEN-LAST:event_btnSegundaViaActionPerformed
+
+    private void tblCarrinhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCarrinhoMouseClicked
+        String codigo = tblCarrinho.getValueAt(tblCarrinho.getSelectedRow(), 0).toString();
+        String produto = tblCarrinho.getValueAt(tblCarrinho.getSelectedRow(), 1).toString();
+        String valor = tblCarrinho.getValueAt(tblCarrinho.getSelectedRow(), 3).toString();
+        int opcao = JOptionPane.showConfirmDialog(this, "Deseja remover o item? \n" + produto + "\nValor: " + valor + "R$", "Remover item", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        System.err.println("opcao: " + opcao);
+        
+        
+    }//GEN-LAST:event_tblCarrinhoMouseClicked
 
     private void adicionarItem(){
         preco = Double.parseDouble(txtPreco.getText());
