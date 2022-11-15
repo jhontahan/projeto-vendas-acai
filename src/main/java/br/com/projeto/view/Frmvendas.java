@@ -32,6 +32,7 @@ import javax.print.attribute.standard.JobName;
 import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,6 +68,9 @@ public class Frmvendas extends javax.swing.JFrame {
      * Creates new form Frmcliente
      */
     public Frmvendas() {
+        UIManager.put("OptionPane.yesButtonText", "Sim"); 
+        UIManager.put("OptionPane.noButtonText", "Não");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
         initComponents();
         btnSegundaVia.setVisible(false);
     }
@@ -525,8 +529,10 @@ public class Frmvendas extends javax.swing.JFrame {
         txtDinheiro.setText("");
         txtTotal.setText("");
         txtTroco.setText("");
-        for(int i = 0; i < carrinho.getRowCount(); i++){
-             carrinho.removeRow(i);
+        carrinho = (DefaultTableModel) tblCarrinho.getModel();
+        int quantidade = carrinho.getRowCount();
+        for(int i = 0; i < quantidade; i++){
+            carrinho.removeRow(0);
         }
         total = 0;
         subTotal = 0;
@@ -669,9 +675,13 @@ public class Frmvendas extends javax.swing.JFrame {
         String codigo = tblCarrinho.getValueAt(tblCarrinho.getSelectedRow(), 0).toString();
         String produto = tblCarrinho.getValueAt(tblCarrinho.getSelectedRow(), 1).toString();
         String valor = tblCarrinho.getValueAt(tblCarrinho.getSelectedRow(), 3).toString();
-        int opcao = JOptionPane.showConfirmDialog(this, "Deseja remover o item? \n" + produto + "\nValor: " + valor + "R$", "Remover item", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        System.err.println("opcao: " + opcao);
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja remover o item? \n" + produto + "\nValor: " + valor + "R$", "Remover item", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
+        if (opcao == 0){
+            total -= Double.parseDouble(valor);
+            txtTotal.setText(String.valueOf(total));
+            carrinho.removeRow(tblCarrinho.getSelectedRow());
+        }
         
     }//GEN-LAST:event_tblCarrinhoMouseClicked
 
