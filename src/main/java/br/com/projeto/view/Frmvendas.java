@@ -484,7 +484,7 @@ public class Frmvendas extends javax.swing.JFrame {
             
         }
         
-        this.imprimir(texto());
+        //this.imprimir(texto());
         
         carregar.setVisible(false);
         

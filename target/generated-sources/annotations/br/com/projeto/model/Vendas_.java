@@ -7,15 +7,17 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2022-11-14T10:04:58", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2022-11-15T10:05:42", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Vendas.class)
 public class Vendas_ { 
 
+    public static volatile SingularAttribute<Vendas, String> formaPagamento;
     public static volatile SingularAttribute<Vendas, Date> dataVenda;
     public static volatile ListAttribute<Vendas, ItemVenda> itensVenda;
     public static volatile SingularAttribute<Vendas, String> tipoVenda;
     public static volatile SingularAttribute<Vendas, Double> totalVenda;
     public static volatile SingularAttribute<Vendas, Long> id;
     public static volatile SingularAttribute<Vendas, String> nomeCliente;
+    public static volatile SingularAttribute<Vendas, String> status;
 
 }

@@ -8,6 +8,7 @@ package br.com.projeto.dao;
  *
  * @author jhona
  */
+import br.com.projeto.model.ItemVenda;
 import br.com.projeto.model.Vendas;
 import br.com.projeto.util.CalendarUtil;
 import java.util.Calendar;
@@ -117,25 +118,50 @@ public class VendasDAO {
        }
        
         @SuppressWarnings("unchecked")
-       public Vendas carregaLazzy(Vendas venda) {
+       public Vendas carregaLazzy(Long id) {
            String sql = "SELECT DISTINCT v FROM Vendas v" +
                         " LEFT JOIN FETCH v.itensVenda iv" +
+                        " LEFT JOIN FETCH iv.venda v1" +
+                        " LEFT JOIN FETCH iv.produto p" +
                          " WHERE 1 = 1";
            
-           if(venda != null){
+           if(id != null){
                sql += " AND v.id = :id";
            }
            
            sql += " ORDER BY v.dataVenda DESC, v.tipoVenda ASC";
            
           TypedQuery<Vendas> q = entityManager.createQuery(sql, Vendas.class);
-          if(venda != null){
-              q.setParameter("id", venda.getId());
+          if(id != null){
+              q.setParameter("id", id);
           }
    
           Vendas v = q.getSingleResult();
          
           return v;
+       }
+       
+       @SuppressWarnings("unchecked")
+       public List<ItemVenda> getItensVenda(Long id) {
+           String sql = "SELECT DISTINCT i FROM ItemVenda i" +
+                        " LEFT JOIN FETCH i.venda v" +
+                        " LEFT JOIN FETCH i.produto p" +
+                         " WHERE 1 = 1";
+           
+           if(id != null){
+               sql += " AND i.venda.id = :id";
+           }
+           
+           sql += " ORDER BY v.dataVenda DESC, v.tipoVenda ASC";
+           
+          TypedQuery<ItemVenda> q = entityManager.createQuery(sql, ItemVenda.class);
+          if(id != null){
+              q.setParameter("id", id);
+          }
+   
+          List<ItemVenda> lista = q.getResultList().stream().distinct().collect(Collectors.toList());
+         
+          return lista;
        }
        
        public Long ultimaVenda(){
