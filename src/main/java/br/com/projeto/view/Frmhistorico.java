@@ -314,7 +314,7 @@ public class Frmhistorico extends javax.swing.JFrame {
 
     private void tblHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistoricoMouseClicked
         //Opções para detalhar ou cancelar a venda.
-        Object[] options = { "Detalhar", "Cancelar venda", "Sair" };
+        Object[] options = { "Detalhar", "Cancelar venda", "Impimir 2 Via", "Sair" };
         int opcao = JOptionPane.showOptionDialog(null, "Sobre a venda", "Venda", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         
     }//GEN-LAST:event_tblHistoricoMouseClicked
