@@ -9,5 +9,5 @@ package br.com.projeto.enuns;
  * @author jhona
  */
 public enum StatusEnum {
-    CANCELADO, EFETIVADA
+    CANCELADA, EFETIVADA
 }
