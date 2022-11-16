@@ -351,13 +351,9 @@ public class Frmhistorico extends javax.swing.JFrame {
             telaDetalhe.lblTotal.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString());
             telaDetalhe.lblPagamento.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString());
             
-            ItemVenda itemVenda = new ItemVenda();
-            
             Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
             
             List<ItemVenda> itens = ItemVendaDAO.getInstance().findBy(id);
-            
-            
             
             DefaultTableModel dados = (DefaultTableModel) telaDetalhe.tblItens.getModel();
             dados.setNumRows(0);
@@ -378,6 +374,25 @@ public class Frmhistorico extends javax.swing.JFrame {
         }
         //Cancelar venda
         if (opcao == 1){
+            try {
+                Vendas v = new Vendas();
+                
+                Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
+                v.setId(id);
+                v.setDataVenda(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 1).toString()));
+                v.setNomeCliente(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 2).toString());
+                v.setFormaPagamento(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString());
+                v.setTipoVenda(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 4).toString());
+                v.setStatus(StatusEnum.CANCELADA.toString());
+                v.setTotalVenda(Double.parseDouble(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString()));
+                
+                VendasDAO.getInstance().merge(v);
+                
+                btnPesquisarActionPerformed(null);
+                
+            } catch (ParseException ex) {
+                Logger.getLogger(Frmhistorico.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         }
         
