@@ -6,6 +6,7 @@ package br.com.projeto.view;
 
 import br.com.projeto.dao.FuncionarioDAO;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -17,6 +18,9 @@ public class FrmLogin extends javax.swing.JFrame {
      * Creates new form FrmLogin
      */
     public FrmLogin() {
+        UIManager.put("OptionPane.yesButtonText", "Sim"); 
+        UIManager.put("OptionPane.noButtonText", "Não");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
         initComponents();
     }
 
