@@ -189,10 +189,26 @@ public class FuncionarioDAO {
                Funcionarios funcionario = (Funcionarios) q.getSingleResult();
                
                if(funcionario != null){
-                   JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistema!");
                    Frmmenu menu = new Frmmenu();
-                   menu.usuarioLogado = funcionario;
-                   menu.setVisible(true);
+                   menu.fornecedores.setVisible(false);
+                   menu.clientes.setVisible(false);
+                   //Funcionario adm
+                   if(funcionario.getNivelAcesso().equals("Administrador")){
+                       JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistema!");
+                       
+                       menu.usuarioLogado = funcionario;
+                       menu.setVisible(true);
+                   }
+                   else if (funcionario.getNivelAcesso().equals("Usuário")){
+                       JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistema!");
+                       menu.usuarioLogado = funcionario;
+                       
+                       menu.menuVenda.setEnabled(false);
+                       
+                       
+                       menu.setVisible(true);
+                   }
+                   
                }
                
            } catch (Exception e) {

@@ -8,6 +8,8 @@ import br.com.projeto.model.Funcionarios;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -21,7 +23,11 @@ public class Frmmenu extends javax.swing.JFrame {
      * Creates new form Frmmenu
      */
     public Frmmenu() {
+        UIManager.put("OptionPane.yesButtonText", "Sim"); 
+        UIManager.put("OptionPane.noButtonText", "Não");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
         initComponents();
+        
     }
 
     /**
@@ -47,16 +53,15 @@ public class Frmmenu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        clientes = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        fornecedores = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        venda = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        menuVenda = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -126,13 +131,13 @@ public class Frmmenu extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/clientes.png"))); // NOI18N
-        jMenu1.setText("Clientes");
+        clientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/clientes.png"))); // NOI18N
+        clientes.setText("Clientes");
 
         jMenuItem1.setText("Controle de Clientes");
-        jMenu1.add(jMenuItem1);
+        clientes.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(clientes);
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/funcionarios.png"))); // NOI18N
         jMenu2.setText("Funcionários");
@@ -142,38 +147,45 @@ public class Frmmenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fornecedores.png"))); // NOI18N
-        jMenu3.setText("Fornecedores");
+        fornecedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/fornecedores.png"))); // NOI18N
+        fornecedores.setText("Fornecedores");
 
         jMenuItem3.setText("Controle de fornecedores");
-        jMenu3.add(jMenuItem3);
+        fornecedores.add(jMenuItem3);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(fornecedores);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/vendas.png"))); // NOI18N
-        jMenu4.setText("Vendas");
+        venda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/vendas.png"))); // NOI18N
+        venda.setText("Vendas");
 
         jMenuItem4.setText("Abrir PDV");
-        jMenu4.add(jMenuItem4);
+        venda.add(jMenuItem4);
 
-        jMenuItem5.setText("Posição do dia");
-        jMenu4.add(jMenuItem5);
+        menuVenda.setText("Histórico de vendas");
+        venda.add(menuVenda);
 
-        jMenuItem6.setText("Histórico de vendas");
-        jMenu4.add(jMenuItem6);
-
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(venda);
 
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/configuracoes.png"))); // NOI18N
         jMenu5.setText("Configurações");
 
         jMenuItem7.setText("Trocar de usuário");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem7);
 
         jMenuBar1.add(jMenu5);
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/sair.png"))); // NOI18N
         jMenu6.setText("Sair");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
@@ -199,6 +211,24 @@ public class Frmmenu extends javax.swing.JFrame {
       this.setVisible(true);
         
     }//GEN-LAST:event_formWindowActivated
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        //Logout
+        FrmLogin login = new FrmLogin();
+        this.dispose();
+        login.setVisible(true);
+        
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja remover o item?", "Confirmação",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if (opcao == 0){
+            System.exit(0);
+        }
+        
+    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -236,13 +266,12 @@ public class Frmmenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JMenu clientes;
+    public javax.swing.JMenu fornecedores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
@@ -250,11 +279,11 @@ public class Frmmenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblUsuarioLogado;
+    public javax.swing.JMenuItem menuVenda;
     private javax.swing.JDesktopPane painel_desktop;
+    private javax.swing.JMenu venda;
     // End of variables declaration//GEN-END:variables
 }
