@@ -42,6 +42,8 @@ public class Frmdetalhe extends javax.swing.JFrame {
         lblTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lblPagamento = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItens = new javax.swing.JTable();
 
@@ -98,6 +100,12 @@ public class Frmdetalhe extends javax.swing.JFrame {
         lblPagamento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblPagamento.setText("Forma pagamento");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Status da venda");
+
+        lblStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblStatus.setText("Status");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -112,6 +120,7 @@ public class Frmdetalhe extends javax.swing.JFrame {
                         .addComponent(lblNome))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
@@ -119,7 +128,8 @@ public class Frmdetalhe extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTotal)
                             .addComponent(lblPagamento)
-                            .addComponent(lblData))))
+                            .addComponent(lblData)
+                            .addComponent(lblStatus))))
                 .addContainerGap(484, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -141,7 +151,11 @@ public class Frmdetalhe extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(lblPagamento))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblStatus))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         tblItens.setModel(new javax.swing.table.DefaultTableModel(
@@ -226,6 +240,7 @@ public class Frmdetalhe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -234,6 +249,7 @@ public class Frmdetalhe extends javax.swing.JFrame {
     public javax.swing.JLabel lblData;
     public javax.swing.JLabel lblNome;
     public javax.swing.JLabel lblPagamento;
+    public javax.swing.JLabel lblStatus;
     public javax.swing.JLabel lblTotal;
     public javax.swing.JTable tblItens;
     // End of variables declaration//GEN-END:variables

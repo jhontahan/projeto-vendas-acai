@@ -11,6 +11,7 @@ import br.com.projeto.enuns.TipoVendaEnum;
 import br.com.projeto.model.ItemVenda;
 import br.com.projeto.model.Vendas;
 import br.com.projeto.util.Impressora;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -116,6 +117,11 @@ public class Frmhistorico extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtDataFinal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDataFinal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDataFinalKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Data Final:");
@@ -350,6 +356,7 @@ public class Frmhistorico extends javax.swing.JFrame {
             telaDetalhe.lblData.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 1).toString());
             telaDetalhe.lblTotal.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString());
             telaDetalhe.lblPagamento.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString());
+            telaDetalhe.lblStatus.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 5).toString());
             
             Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
             
@@ -411,6 +418,14 @@ public class Frmhistorico extends javax.swing.JFrame {
         Impressora.getInstance().imprimir(texto());
         
     }//GEN-LAST:event_btnRelatorioActionPerformed
+
+    private void txtDataFinalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDataFinalKeyPressed
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER){
+            btnPesquisarActionPerformed(null);
+        }
+        
+        
+    }//GEN-LAST:event_txtDataFinalKeyPressed
 
     public String cabecalho(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
