@@ -69,21 +69,21 @@ public class ItemVendaDAO {
        }
        
        @SuppressWarnings("unchecked")
-       public List<ItemVenda> findBy(Vendas vendas) {
+       public List<ItemVenda> findBy(Long id) {
            String sql = "SELECT DISTINCT iv FROM ItemVenda iv" +
                         " LEFT JOIN FETCH iv.produto p" +
                         " LEFT JOIN FETCH iv.venda v" +
                          " WHERE 1 = 1";
            
-           if(vendas != null){
-               sql += " AND iv.venda = :venda";
+           if(id != null){
+               sql += " AND iv.venda.id = :id";
            }
            
            sql += " ORDER BY v.dataVenda DESC";
            
           TypedQuery<ItemVenda> q = entityManager.createQuery(sql, ItemVenda.class);
-          if(vendas != null){
-              q.setParameter("venda", vendas);
+          if(id != null){
+              q.setParameter("id", id);
           }
 
           List<ItemVenda> lista = q.getResultList().stream().distinct().collect(Collectors.toList());
