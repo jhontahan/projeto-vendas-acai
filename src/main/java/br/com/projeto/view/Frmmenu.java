@@ -135,6 +135,11 @@ public class Frmmenu extends javax.swing.JFrame {
         clientes.setText("Clientes");
 
         jMenuItem1.setText("Controle de Clientes");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         clientes.add(jMenuItem1);
 
         jMenuBar1.add(clientes);
@@ -143,6 +148,11 @@ public class Frmmenu extends javax.swing.JFrame {
         jMenu2.setText("Funcionários");
 
         jMenuItem2.setText("Controle de funcionários");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -159,9 +169,19 @@ public class Frmmenu extends javax.swing.JFrame {
         venda.setText("Vendas");
 
         jMenuItem4.setText("Abrir PDV");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         venda.add(jMenuItem4);
 
         menuVenda.setText("Histórico de vendas");
+        menuVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVendaActionPerformed(evt);
+            }
+        });
         venda.add(menuVenda);
 
         jMenuBar1.add(venda);
@@ -222,13 +242,34 @@ public class Frmmenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
-        int opcao = JOptionPane.showConfirmDialog(null, "Deseja remover o item?", "Confirmação",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmação",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
         if (opcao == 0){
             System.exit(0);
         }
         
     }//GEN-LAST:event_jMenu6MouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Frmcliente tela = new Frmcliente();
+        tela.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       Frmfuncionarios tela = new Frmfuncionarios();
+       tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        Frmvendas tela = new Frmvendas();
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void menuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVendaActionPerformed
+       Frmhistorico tela = new Frmhistorico();
+       tela.setVisible(true);
+    }//GEN-LAST:event_menuVendaActionPerformed
 
     /**
      * @param args the command line arguments

@@ -90,6 +90,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         btnSair.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSair.setText("SAIR");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,6 +149,14 @@ public class FrmLogin extends javax.swing.JFrame {
     private void campoSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSenhaActionPerformed
       logar();
     }//GEN-LAST:event_campoSenhaActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmação",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if (opcao == 0){
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btnSairActionPerformed
 
     //Método para o usuário logar no sistema.
     private void logar(){
