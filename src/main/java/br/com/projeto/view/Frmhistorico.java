@@ -7,10 +7,13 @@ package br.com.projeto.view;
 import br.com.projeto.dao.VendasDAO;
 import br.com.projeto.enuns.StatusEnum;
 import br.com.projeto.enuns.TipoVendaEnum;
+import br.com.projeto.model.ItemVenda;
 import br.com.projeto.model.Vendas;
+import br.com.projeto.util.Impressora;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,11 +29,18 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Frmhistorico extends javax.swing.JFrame {
 
+     Double receita = 0.0;
+     Double despesas = 0.0;
+     Double total = 0.0;
+     List<Vendas> vendas = new ArrayList<>();
+    
+    
     /**
      * Creates new form Frmhistorico
      */
     public Frmhistorico() {
         initComponents();
+        btnRelatorio.setVisible(false);
     }
 
     /**
@@ -58,6 +68,7 @@ public class Frmhistorico extends javax.swing.JFrame {
         tblHistorico = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
+        btnRelatorio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Histórico de Vendas");
@@ -151,11 +162,9 @@ public class Frmhistorico extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbStatusVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(91, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(cmbStatusVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnPesquisar)
@@ -201,6 +210,14 @@ public class Frmhistorico extends javax.swing.JFrame {
 
         lblTotal.setText("0");
 
+        btnRelatorio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRelatorio.setText("IMPRIMIR RELATÓRIO");
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -210,6 +227,8 @@ public class Frmhistorico extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRelatorio)
+                .addGap(173, 173, 173)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTotal)
@@ -226,8 +245,9 @@ public class Frmhistorico extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(lblTotal))
-                .addGap(0, 19, Short.MAX_VALUE))
+                    .addComponent(lblTotal)
+                    .addComponent(btnRelatorio))
+                .addGap(0, 13, Short.MAX_VALUE))
         );
 
         pack();
@@ -243,7 +263,7 @@ public class Frmhistorico extends javax.swing.JFrame {
             dataInicio = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataInicial.getText());
             dataFinal = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataFinal.getText()); 
         } catch (ParseException ex) {
-            Logger.getLogger(Frmhistorico.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Informe a data inicial e a data final.");
         }
          
 //        Date dataFinal = (Date) formato.parse(txtDataInicial.getText());
@@ -263,7 +283,7 @@ public class Frmhistorico extends javax.swing.JFrame {
         }
         
         
-        List<Vendas> vendas = VendasDAO.getInstance().findBy(dataInicio, dataFinal, status, tipo);
+        vendas = VendasDAO.getInstance().findBy(dataInicio, dataFinal, status, tipo);
         
         List<Vendas> vendasReceitas = vendas.stream()
                                       .filter(venda -> 
@@ -287,9 +307,9 @@ public class Frmhistorico extends javax.swing.JFrame {
 //                                      findBy(dataInicio, dataFinal, 
 //                                      status, tipo);
         
-        Double receita = vendasReceitas.stream().mapToDouble(Vendas::getTotalVenda).sum();
-        Double despesas = vendasDespesas.stream().mapToDouble(Vendas::getTotalVenda).sum();
-        Double total = receita - despesas;
+        receita = vendasReceitas.stream().mapToDouble(Vendas::getTotalVenda).sum();
+        despesas = vendasDespesas.stream().mapToDouble(Vendas::getTotalVenda).sum();
+        total = receita - despesas;
         
         DefaultTableModel historico = (DefaultTableModel) tblHistorico.getModel();
         historico.setNumRows(0);
@@ -309,6 +329,7 @@ public class Frmhistorico extends javax.swing.JFrame {
         }
         
         lblTotal.setText("" + total);
+        btnRelatorio.setVisible(true);
         
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -331,6 +352,50 @@ public class Frmhistorico extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tblHistoricoMouseClicked
 
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
+        Impressora.getInstance().imprimir(texto());
+        
+    }//GEN-LAST:event_btnRelatorioActionPerformed
+
+    public String cabecalho(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String horaAtual = formatter.format(new Date());
+        
+        return "             ACAI MORENA\n\r" + 
+               "            Avenida principal, 10\n\r" +
+               "            (98) 98832-3987\n\r" +
+               "            Cnpj: 222.222.222-22\n\r" +
+               "-----------------------------------------------\n\r"+
+               "      IMPRESSO EM " + horaAtual + "\n\n\r"+
+               "  Relatorio de (" + txtDataInicial.getText() + ") a (" + txtDataFinal.getText() + ")\n\n\r";
+             
+    }
+    
+    public String texto(){
+        String texto = cabecalho();
+        
+        texto += "VALOR DAS RECEITAS: " + receita + "\n\n\r";
+        texto += "VALOR DAS DESPESAS: " + despesas + "\n\n\r";
+        texto += "VALOR RESTANTE: " + total + "\n\n\r";
+        
+        texto +="-----------------------------------------------\n\r"+
+                "                                    \n\r" + 
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" ;
+                
+        
+        
+        return texto;
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -368,6 +433,7 @@ public class Frmhistorico extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPesquisar;
+    private javax.swing.JButton btnRelatorio;
     private javax.swing.JComboBox<String> cbmTipoVenda;
     private javax.swing.JComboBox<String> cmbStatusVenda;
     private javax.swing.JLabel jLabel1;
