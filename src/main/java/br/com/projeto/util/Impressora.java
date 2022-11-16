@@ -36,7 +36,7 @@ public class Impressora {
     
      public void imprimir(String texto) {
         try {
-            System.err.println(texto);
+            
             InputStream print = new ByteArrayInputStream(texto.getBytes());
             DocFlavor docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 
@@ -60,7 +60,7 @@ public class Impressora {
             print.close();
 
         } catch (Exception e) {
-
+            System.err.println(e.getMessage());
         }
 
     }

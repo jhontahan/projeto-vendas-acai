@@ -493,7 +493,7 @@ public class Frmvendas extends javax.swing.JFrame {
             
         }
         
-        //this.imprimir(texto());
+        this.imprimir(texto());
         
         carregar.setVisible(false);
         
@@ -710,7 +710,7 @@ public class Frmvendas extends javax.swing.JFrame {
     
     public void imprimir(String texto) {
         try {
-            System.err.println(texto);
+            
             InputStream print = new ByteArrayInputStream(texto.getBytes());
             DocFlavor docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 
@@ -734,7 +734,7 @@ public class Frmvendas extends javax.swing.JFrame {
             print.close();
 
         } catch (Exception e) {
-
+            System.err.println(e.getMessage());
         }
 
     }
