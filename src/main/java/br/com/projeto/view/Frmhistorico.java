@@ -340,6 +340,8 @@ public class Frmhistorico extends javax.swing.JFrame {
         //Opções para detalhar ou cancelar a venda.
         Object[] options = { "Detalhar", "Cancelar venda", "Impimir 2 Via", "Sair" };
         int opcao = JOptionPane.showOptionDialog(null, "Sobre a venda", "Venda", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+       
+        //Detalhar venda
         if(opcao == 0){
             Frmdetalhe telaDetalhe = new Frmdetalhe();
             //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -374,6 +376,18 @@ public class Frmhistorico extends javax.swing.JFrame {
             telaDetalhe.setVisible(true);
             
         }
+        //Cancelar venda
+        if (opcao == 1){
+            
+        }
+        
+        //Imprimir segunda via
+        if (opcao == 2){
+            Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
+            Vendas venda = VendasDAO.getInstance().getById(id);
+            
+            Impressora.getInstance().imprimir(texto2via(venda));
+        }
         
         
     }//GEN-LAST:event_tblHistoricoMouseClicked
@@ -405,6 +419,69 @@ public class Frmhistorico extends javax.swing.JFrame {
         texto += "VALOR RESTANTE: " + total + "\n\n\r";
         
         texto +="-----------------------------------------------\n\r"+
+                "                                    \n\r" + 
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" +
+                "                                    \n\r" ;
+                
+        
+        
+        return texto;
+        
+    }
+    
+    public String cabecalho2via(Vendas vendas){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String horaAtual = formatter.format(new Date());
+        
+        return "             ACAI MORENA\n\r" + 
+               "            Avenida principal, 10\n\r" +
+               "            (98) 98832-3987\n\r" +
+               "            Cnpj: 222.222.222-22\n\r" +
+               "-----------------------------------------------\n\r"+
+               "      IMPRESSO EM " + horaAtual + "\n\n\r"+
+               "        ** NAO E DOCUMENTO FISCAL **\n\n\r" +
+               "                (Pedido N.: " + vendas.getId() + ")\n\n\r";
+             
+    }
+    
+    public String texto2via(Vendas venda){
+        String texto = cabecalho2via(venda);
+        
+        if (!StringUtils.isBlank(venda.getNomeCliente())){
+            texto += "Cliente: " + venda.getNomeCliente() + "\n\r";
+        }
+        else{
+            texto += "Cliente: Nao Informado\n\r";
+        }
+        
+        texto += "Forma de pagamento: " + venda.getFormaPagamento() + "\n\r";
+        
+        texto += "ITEM (V.UNIT)                           Total\n\r";
+        
+        
+        ItemVenda itemVenda = new ItemVenda();
+            
+        Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
+
+        List<ItemVenda> itens = ItemVendaDAO.getInstance().findBy(id);
+        
+        for (ItemVenda item : itens){
+            texto += item.getProduto().getDescricao() + "                                    " + item.getSubTotal()+"\n\r";
+        }
+        texto += "-----------------------------------------------\n\r";
+        
+        texto += "TOTAL A PAGAR:                          " + itens.stream().mapToDouble(ItemVenda::getSubTotal).sum() + "\n\n\r";
+        
+        texto += "            *Obrigado pela preferencia* \n\r"
+                + "                   Volte Sempre!\n\r"
+                + "-----------------------------------------------\n\r"+
                 "                                    \n\r" + 
                 "                                    \n\r" +
                 "                                    \n\r" +
