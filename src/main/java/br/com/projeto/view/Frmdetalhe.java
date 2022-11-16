@@ -4,12 +4,16 @@
  */
 package br.com.projeto.view;
 
+import br.com.projeto.model.Vendas;
+
 /**
  *
  * @author jhona
  */
 public class Frmdetalhe extends javax.swing.JFrame {
 
+    Vendas venda = new Vendas();
+    
     /**
      * Creates new form Frmhistorico
      */
@@ -207,9 +211,9 @@ public class Frmdetalhe extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblData;
-    private javax.swing.JLabel lblNome;
-    private javax.swing.JLabel lblTotal;
+    public javax.swing.JLabel lblData;
+    public javax.swing.JLabel lblNome;
+    public javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblItens;
     // End of variables declaration//GEN-END:variables
 }

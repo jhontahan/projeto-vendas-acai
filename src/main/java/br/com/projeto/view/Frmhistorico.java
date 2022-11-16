@@ -316,6 +316,18 @@ public class Frmhistorico extends javax.swing.JFrame {
         //Opções para detalhar ou cancelar a venda.
         Object[] options = { "Detalhar", "Cancelar venda", "Impimir 2 Via", "Sair" };
         int opcao = JOptionPane.showOptionDialog(null, "Sobre a venda", "Venda", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        if(opcao == 1){
+            Frmdetalhe telaDetalhe = new Frmdetalhe();
+            //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            
+            telaDetalhe.lblNome.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 2).toString());
+            telaDetalhe.lblData.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 1).toString());
+            telaDetalhe.lblTotal.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString());
+            
+            telaDetalhe.setVisible(true);
+            
+        }
+        
         
     }//GEN-LAST:event_tblHistoricoMouseClicked
 
