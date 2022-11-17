@@ -396,15 +396,25 @@ public class Frmhistorico extends javax.swing.JFrame {
         if (opcao == 1){
             try {
                 Vendas v = new Vendas();
+                String observacao;
+                
+                if (tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3) != null 
+                    && !StringUtils.isBlank(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString())){
+                observacao = tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString();
+                }
+                else{
+                    observacao = null;
+                }
                 
                 Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
                 v.setId(id);
                 v.setDataVenda(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 1).toString()));
                 v.setNomeCliente(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 2).toString());
-                v.setFormaPagamento(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString());
-                v.setTipoVenda(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 4).toString());
+                v.setObservacoes(observacao);
+                v.setFormaPagamento(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 4).toString());
+                v.setTipoVenda(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 5).toString());
                 v.setStatus(StatusEnum.CANCELADA.toString());
-                v.setTotalVenda(Double.parseDouble(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString()));
+                v.setTotalVenda(Double.parseDouble(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 7).toString()));
                 
                 VendasDAO.getInstance().merge(v);
                 
