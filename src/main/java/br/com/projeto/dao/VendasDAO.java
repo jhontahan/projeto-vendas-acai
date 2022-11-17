@@ -167,7 +167,9 @@ public class VendasDAO {
        public Long ultimaVenda(){
            String sql = "select max(v.id) from Vendas as v";
            
-           Query q = entityManager.createQuery(sql, Vendas.class);
+           //Query q = entityManager.createQuery(sql, Vendas.class);
+           
+           Query q = entityManager.createQuery(sql, Long.class);
            
            return (Long) q.getSingleResult();
        }

@@ -99,7 +99,7 @@ public class ProdutoDAO {
                   
 //           sql += " ORDER BY f.nome ASC";
           
-          Query q = entityManager.createQuery(sql, Funcionarios.class);
+          Query q = entityManager.createQuery(sql, Produto.class);
           if(descricao != null){
               q.setParameter("descricao", descricao);
           }
