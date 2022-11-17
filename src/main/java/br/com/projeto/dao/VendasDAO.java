@@ -94,7 +94,7 @@ public class VendasDAO {
                sql += " AND v.tipoVenda LIKE :tipo";
            }
                   
-           sql += " ORDER BY v.dataVenda ASC, v.status DESC";
+           sql += " ORDER BY v.status desc, v.dataVenda asc";
            
           TypedQuery<Vendas> q = entityManager.createQuery(sql, Vendas.class);
           if(dataInicio != null){
