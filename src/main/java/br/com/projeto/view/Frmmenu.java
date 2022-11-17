@@ -59,6 +59,8 @@ public class Frmmenu extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         fornecedores = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        produtos = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         venda = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         menuVenda = new javax.swing.JMenuItem();
@@ -95,7 +97,7 @@ public class Frmmenu extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsuarioLogado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 394, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -164,6 +166,19 @@ public class Frmmenu extends javax.swing.JFrame {
         fornecedores.add(jMenuItem3);
 
         jMenuBar1.add(fornecedores);
+
+        produtos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/produtos.png"))); // NOI18N
+        produtos.setText("Produtos");
+
+        jMenuItem5.setText("Controle de produtos");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        produtos.add(jMenuItem5);
+
+        jMenuBar1.add(produtos);
 
         venda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/vendas.png"))); // NOI18N
         venda.setText("Vendas");
@@ -271,6 +286,11 @@ public class Frmmenu extends javax.swing.JFrame {
        tela.setVisible(true);
     }//GEN-LAST:event_menuVendaActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        Frmprodutos tela = new Frmprodutos();
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -320,11 +340,13 @@ public class Frmmenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblUsuarioLogado;
     public javax.swing.JMenuItem menuVenda;
     private javax.swing.JDesktopPane painel_desktop;
+    private javax.swing.JMenu produtos;
     private javax.swing.JMenu venda;
     // End of variables declaration//GEN-END:variables
 }
