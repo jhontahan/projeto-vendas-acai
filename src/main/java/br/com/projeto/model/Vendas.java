@@ -48,6 +48,8 @@ public class Vendas implements Serializable {
     @Column(name="status_venda")
     private String status;
     
+    private String observacoes;
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "venda")
     private List<ItemVenda> itensVenda;
     
@@ -117,7 +119,13 @@ public class Vendas implements Serializable {
         this.status = status;
     }
 
-    
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
     
     @Override
     public int hashCode() {

@@ -203,7 +203,7 @@ public class Frmhistorico extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Data da Venda", "Cliente", "Forma de Pagamento", "Tipo de Venda", "Status da Venda", "Total da Venda"
+                "Código", "Data da Venda", "Cliente", "Observações", "Forma de Pagamento", "Tipo de Venda", "Status da Venda", "Total da Venda"
             }
         ));
         tblHistorico.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -280,10 +280,6 @@ public class Frmhistorico extends javax.swing.JFrame {
         String status = (String) cmbStatusVenda.getSelectedItem();
         String tipo = (String) cbmTipoVenda.getSelectedItem();
         
-        System.err.println("Status selecionado: " + status);
-        System.err.println("Tipo selecionado: " + tipo);
-        
-        
         if (status.equals("Selecione uma opção")){
             status = null;
         }
@@ -293,6 +289,11 @@ public class Frmhistorico extends javax.swing.JFrame {
         
         
         vendas = VendasDAO.getInstance().findBy(dataInicio, dataFinal, status, tipo);
+        
+        if (vendas.isEmpty()){
+          JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!");
+          return;
+        }
         
         List<Vendas> vendasReceitas = vendas.stream()
                                       .filter(venda -> 
@@ -330,6 +331,7 @@ public class Frmhistorico extends javax.swing.JFrame {
                 v.getId(),
                 dateFormat.format(v.getDataVenda()),
                 !StringUtils.isBlank(v.getNomeCliente()) ? v.getNomeCliente() : "Não informado",
+                v.getObservacoes(),
                 v.getFormaPagamento(),
                 v.getTipoVenda(),
                 v.getStatus(),
@@ -352,11 +354,22 @@ public class Frmhistorico extends javax.swing.JFrame {
             Frmdetalhe telaDetalhe = new Frmdetalhe();
             //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             
+            String observacao;
+            
+            if (tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3) != null 
+                    && !StringUtils.isBlank(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString())){
+                observacao = tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString();
+            }
+            else{
+                observacao = "";
+            }
+            
             telaDetalhe.lblNome.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 2).toString());
             telaDetalhe.lblData.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 1).toString());
-            telaDetalhe.lblTotal.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString());
-            telaDetalhe.lblPagamento.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 3).toString());
-            telaDetalhe.lblStatus.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 5).toString());
+            telaDetalhe.lblTotal.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 7).toString());
+            telaDetalhe.lblPagamento.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 4).toString());
+            telaDetalhe.lblStatus.setText(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString());
+            telaDetalhe.txtObservacoes.setText(observacao);
             
             Long id = Long.parseLong(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 0).toString());
             
