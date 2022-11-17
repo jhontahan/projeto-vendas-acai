@@ -346,7 +346,18 @@ public class Frmhistorico extends javax.swing.JFrame {
 
     private void tblHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistoricoMouseClicked
         //Opções para detalhar ou cancelar a venda.
-        Object[] options = { "Detalhar", "Cancelar venda", "Impimir 2 Via", "Sair" };
+        
+        String status = tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 6).toString();
+        String botao;
+        
+        if (status.equals(StatusEnum.EFETIVADA.toString())){
+            botao = "Cancelar venda";
+        }
+        else{
+            botao = "Efetivar venda";
+        }
+        
+        Object[] options = { "Detalhar", botao, "Impimir 2 Via", "Sair" };
         int opcao = JOptionPane.showOptionDialog(null, "Sobre a venda", "Venda", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
        
         //Detalhar venda
@@ -392,7 +403,7 @@ public class Frmhistorico extends javax.swing.JFrame {
             telaDetalhe.setVisible(true);
             
         }
-        //Cancelar venda
+        //Cancelar ou efetivar venda
         if (opcao == 1){
             try {
                 Vendas v = new Vendas();
@@ -413,7 +424,14 @@ public class Frmhistorico extends javax.swing.JFrame {
                 v.setObservacoes(observacao);
                 v.setFormaPagamento(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 4).toString());
                 v.setTipoVenda(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 5).toString());
-                v.setStatus(StatusEnum.CANCELADA.toString());
+                
+                if (status.equals(StatusEnum.EFETIVADA.toString())){
+                    v.setStatus(StatusEnum.CANCELADA.toString());
+                }
+                else{
+                    v.setStatus(StatusEnum.EFETIVADA.toString());
+                }
+                
                 v.setTotalVenda(Double.parseDouble(tblHistorico.getValueAt(tblHistorico.getSelectedRow(), 7).toString()));
                 
                 VendasDAO.getInstance().merge(v);
