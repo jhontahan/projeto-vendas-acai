@@ -555,6 +555,7 @@ public class Frmvendas extends javax.swing.JFrame {
         btnSegundaVia.setVisible(false);
         btnFinalizar.setEnabled(true);
         btnCancelar.setText("CANCELAR VENDA");
+        vendas = new Vendas();
         
     }
     

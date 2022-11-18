@@ -34,6 +34,7 @@ public class Frmhistorico extends javax.swing.JFrame {
      Double receita = 0.0;
      Double despesas = 0.0;
      Double total = 0.0;
+     Double dinheiro = 0.0, pix = 0.0, debito = 0.0, credito = 0.0;
      List<Vendas> vendas = new ArrayList<>();
     
     
@@ -316,18 +317,60 @@ public class Frmhistorico extends javax.swing.JFrame {
                                               .filter(venda ->
                                                      venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
                                               .collect(Collectors.toList());
-
-        //        List<Vendas> vendasReceitas = VendasDAO.getInstance().
-        //                                      findBy(dataInicio, dataFinal, 
-        //                                      status, tipo);
-        //        
-        //        List<Vendas> vendasDespesas = VendasDAO.getInstance().
-        //                                      findBy(dataInicio, dataFinal, 
-        //                                      status, tipo);
+                
+                //DINHEIRO PIX DEBITO CREDITO
+                List<Vendas> vendasDinheiro = vendas.stream()
+                                              .filter(venda -> 
+                                                     venda.getTipoVenda().equals(TipoVendaEnum.RECEITA.toString()))
+                                              .filter(venda ->
+                                                     venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
+                                              .filter(venda ->
+                                                     venda.getFormaPagamento().equals("DINHEIRO"))
+                                              .collect(Collectors.toList());
+                
+                 List<Vendas> vendasPix = vendas.stream()
+                                              .filter(venda -> 
+                                                     venda.getTipoVenda().equals(TipoVendaEnum.RECEITA.toString()))
+                                              .filter(venda ->
+                                                     venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
+                                              .filter(venda ->
+                                                     venda.getFormaPagamento().equals("PIX"))
+                                              .collect(Collectors.toList());
+                 
+                  List<Vendas> vendasDebito = vendas.stream()
+                                              .filter(venda -> 
+                                                     venda.getTipoVenda().equals(TipoVendaEnum.RECEITA.toString()))
+                                              .filter(venda ->
+                                                     venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
+                                              .filter(venda ->
+                                                     venda.getFormaPagamento().equals("DEBITO"))
+                                              .collect(Collectors.toList());
+                  
+                   List<Vendas> vendasCredito = vendas.stream()
+                                              .filter(venda -> 
+                                                     venda.getTipoVenda().equals(TipoVendaEnum.RECEITA.toString()))
+                                              .filter(venda ->
+                                                     venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
+                                              .filter(venda ->
+                                                     venda.getFormaPagamento().equals("CREDITO"))
+                                              .collect(Collectors.toList());
+                  
+       
 
                 receita = vendasReceitas.stream().mapToDouble(Vendas::getTotalVenda).sum();
                 despesas = vendasDespesas.stream().mapToDouble(Vendas::getTotalVenda).sum();
+                dinheiro = vendasDinheiro.stream().mapToDouble(Vendas::getTotalVenda).sum();
+                pix = vendasPix.stream().mapToDouble(Vendas::getTotalVenda).sum();
+                debito = vendasDebito.stream().mapToDouble(Vendas::getTotalVenda).sum();
+                credito = vendasCredito.stream().mapToDouble(Vendas::getTotalVenda).sum();
                 total = receita - despesas;
+                
+                System.err.println("dinheiro: " + dinheiro + "\n");
+                System.err.println("pix: " + pix + "\n");
+                System.err.println("debito: " + debito + "\n");
+                System.err.println("credito: " + credito + "\n");
+                System.err.println("receita: " + receita + "\n");
+                System.err.println("despesas: " + despesas + "\n");
 
                 DefaultTableModel historico = (DefaultTableModel) tblHistorico.getModel();
                 historico.setNumRows(0);
