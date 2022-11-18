@@ -265,82 +265,100 @@ public class Frmhistorico extends javax.swing.JFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
        //Recbendo as datas
 //        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Date dataInicio = null;  
-        Date dataFinal = null;
-        try {
-            dataInicio = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataInicial.getText());
-            dataFinal = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataFinal.getText()); 
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Informe a data inicial e a data final.");
-            return;
-        }
-         
-//        Date dataFinal = (Date) formato.parse(txtDataInicial.getText());
+        
+       Frmhistorico tela  = this;
+       
+       final BarraCarregar carregar = new BarraCarregar();
+       carregar.setVisible(true);
+       
+       Thread t = new Thread(){
+            public void run(){
+                Date dataInicio = null;  
+                Date dataFinal = null;
+                try {
+                    dataInicio = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataInicial.getText());
+                    dataFinal = new SimpleDateFormat("dd/MM/yyyy").parse(txtDataFinal.getText()); 
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Informe a data inicial e a data final.");
+                    return;
+                }
 
-        String status = (String) cmbStatusVenda.getSelectedItem();
-        String tipo = (String) cbmTipoVenda.getSelectedItem();
+        //        Date dataFinal = (Date) formato.parse(txtDataInicial.getText());
+
+                String status = (String) cmbStatusVenda.getSelectedItem();
+                String tipo = (String) cbmTipoVenda.getSelectedItem();
+
+                if (status.equals("Selecione uma opção")){
+                    status = null;
+                }
+                if (tipo.equals("Selecione uma opção")){
+                    tipo = null;
+                }
+
+
+                vendas = VendasDAO.getInstance().findBy(dataInicio, dataFinal, status, tipo);
+
+                if (vendas.isEmpty()){
+                  JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!");
+                  return;
+                }
+
+                List<Vendas> vendasReceitas = vendas.stream()
+                                              .filter(venda -> 
+                                                     venda.getTipoVenda().equals(TipoVendaEnum.RECEITA.toString()))
+                                              .filter(venda ->
+                                                     venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
+                                              .collect(Collectors.toList());
+
+                List<Vendas> vendasDespesas = vendas.stream()
+                                              .filter(venda -> 
+                                                     venda.getTipoVenda().equals(TipoVendaEnum.DESPESA.toString()))
+                                              .filter(venda ->
+                                                     venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
+                                              .collect(Collectors.toList());
+
+        //        List<Vendas> vendasReceitas = VendasDAO.getInstance().
+        //                                      findBy(dataInicio, dataFinal, 
+        //                                      status, tipo);
+        //        
+        //        List<Vendas> vendasDespesas = VendasDAO.getInstance().
+        //                                      findBy(dataInicio, dataFinal, 
+        //                                      status, tipo);
+
+                receita = vendasReceitas.stream().mapToDouble(Vendas::getTotalVenda).sum();
+                despesas = vendasDespesas.stream().mapToDouble(Vendas::getTotalVenda).sum();
+                total = receita - despesas;
+
+                DefaultTableModel historico = (DefaultTableModel) tblHistorico.getModel();
+                historico.setNumRows(0);
+
+                for (Vendas v : vendas){
+                    //String dataFormatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format((TemporalAccessor) v.getDataVenda());
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    historico.addRow(new Object[]{
+                        v.getId(),
+                        dateFormat.format(v.getDataVenda()),
+                        !StringUtils.isBlank(v.getNomeCliente()) ? v.getNomeCliente() : "Não informado",
+                        v.getObservacoes(),
+                        v.getFormaPagamento(),
+                        v.getTipoVenda(),
+                        v.getStatus(),
+                        v.getTotalVenda()
+                    });
+                }
+
+                lblTotal.setText("" + total);
+                btnRelatorio.setVisible(true);
+                
+                carregar.setVisible(false);
+                
+            }
+        };
         
-        if (status.equals("Selecione uma opção")){
-            status = null;
-        }
-        if (tipo.equals("Selecione uma opção")){
-            tipo = null;
-        }
+        t.start();
+
+
         
-        
-        vendas = VendasDAO.getInstance().findBy(dataInicio, dataFinal, status, tipo);
-        
-        if (vendas.isEmpty()){
-          JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!");
-          return;
-        }
-        
-        List<Vendas> vendasReceitas = vendas.stream()
-                                      .filter(venda -> 
-                                             venda.getTipoVenda().equals(TipoVendaEnum.RECEITA.toString()))
-                                      .filter(venda ->
-                                             venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
-                                      .collect(Collectors.toList());
-        
-        List<Vendas> vendasDespesas = vendas.stream()
-                                      .filter(venda -> 
-                                             venda.getTipoVenda().equals(TipoVendaEnum.DESPESA.toString()))
-                                      .filter(venda ->
-                                             venda.getStatus().equals(StatusEnum.EFETIVADA.toString()))
-                                      .collect(Collectors.toList());
-        
-//        List<Vendas> vendasReceitas = VendasDAO.getInstance().
-//                                      findBy(dataInicio, dataFinal, 
-//                                      status, tipo);
-//        
-//        List<Vendas> vendasDespesas = VendasDAO.getInstance().
-//                                      findBy(dataInicio, dataFinal, 
-//                                      status, tipo);
-        
-        receita = vendasReceitas.stream().mapToDouble(Vendas::getTotalVenda).sum();
-        despesas = vendasDespesas.stream().mapToDouble(Vendas::getTotalVenda).sum();
-        total = receita - despesas;
-        
-        DefaultTableModel historico = (DefaultTableModel) tblHistorico.getModel();
-        historico.setNumRows(0);
-        
-        for (Vendas v : vendas){
-            //String dataFormatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format((TemporalAccessor) v.getDataVenda());
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            historico.addRow(new Object[]{
-                v.getId(),
-                dateFormat.format(v.getDataVenda()),
-                !StringUtils.isBlank(v.getNomeCliente()) ? v.getNomeCliente() : "Não informado",
-                v.getObservacoes(),
-                v.getFormaPagamento(),
-                v.getTipoVenda(),
-                v.getStatus(),
-                v.getTotalVenda()
-            });
-        }
-        
-        lblTotal.setText("" + total);
-        btnRelatorio.setVisible(true);
         
     }//GEN-LAST:event_btnPesquisarActionPerformed
 

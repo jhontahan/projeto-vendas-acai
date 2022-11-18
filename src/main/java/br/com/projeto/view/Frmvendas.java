@@ -13,6 +13,7 @@ import br.com.projeto.model.Funcionarios;
 import br.com.projeto.model.ItemVenda;
 import br.com.projeto.model.Produto;
 import br.com.projeto.model.Vendas;
+import br.com.projeto.util.Impressora;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -465,43 +466,57 @@ public class Frmvendas extends javax.swing.JFrame {
         BarraCarregar carregar = new BarraCarregar();
         carregar.setVisible(true);
         
-        //Setando o objeto do tipo venda.
-        vendas.setNomeCliente(txtNome.getText());
-        vendas.setDataVenda(new Date());
-        vendas.setTotalVenda(total);
-        vendas.setFormaPagamento((String) cmbTipoVenda.getSelectedItem());
-        vendas.setStatus(StatusEnum.EFETIVADA.toString());
-        vendas.setTipoVenda(TipoVendaEnum.RECEITA.toString());
+        Frmvendas tela = this;
         
-        VendasDAO.getInstance().persist(vendas);
+        Thread t = new Thread(){
+            public void run(){
+                
+                //Setando o objeto do tipo venda.
+            vendas.setNomeCliente(txtNome.getText());
+            vendas.setDataVenda(new Date());
+            vendas.setTotalVenda(total);
+            vendas.setFormaPagamento((String) cmbTipoVenda.getSelectedItem());
+            vendas.setStatus(StatusEnum.EFETIVADA.toString());
+            vendas.setTipoVenda(TipoVendaEnum.RECEITA.toString());
+
+            VendasDAO.getInstance().persist(vendas);
+
+            //Retorna o id última venda realizada;
+            vendas.setId(VendasDAO.getInstance().ultimaVenda());
+
+            //Cadastrando os produtos na tabela itemVendas
+            for(int i = 0; i < carrinho.getRowCount(); i++){
+                ItemVenda item = new ItemVenda();
+                Produto prod = ProdutoDAO.getInstance().getById(Long.parseLong(carrinho.getValueAt(i, 0).toString()));
+
+                item.setVenda(vendas);
+                item.setProduto(prod);
+                item.setSubTotal(Double.parseDouble(carrinho.getValueAt(i, 3).toString()));
+
+                ItemVendaDAO.getInstance().persist(item);
+
+                itens.add(item);
+
+            }
+
+            Impressora.getInstance().imprimir(texto());
+
+            carregar.setVisible(false);
+
+            JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!");
+
+            btnFinalizar.setEnabled(false);
+            btnSegundaVia.setVisible(true);
+            btnCancelar.setText("NOVA VENDA");
+               
+                
+            }
+        };
         
-        //Retorna o id última venda realizada;
-        vendas.setId(VendasDAO.getInstance().ultimaVenda());
+        t.start();
         
-        //Cadastrando os produtos na tabela itemVendas
-        for(int i = 0; i < carrinho.getRowCount(); i++){
-            ItemVenda item = new ItemVenda();
-            Produto prod = ProdutoDAO.getInstance().getById(Long.parseLong(carrinho.getValueAt(i, 0).toString()));
-            
-            item.setVenda(vendas);
-            item.setProduto(prod);
-            item.setSubTotal(Double.parseDouble(carrinho.getValueAt(i, 3).toString()));
-            
-            ItemVendaDAO.getInstance().persist(item);
-            
-            itens.add(item);
-            
-        }
         
-        this.imprimir(texto());
         
-        carregar.setVisible(false);
-        
-        JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!");
-        
-        btnFinalizar.setEnabled(false);
-        btnSegundaVia.setVisible(true);
-        btnCancelar.setText("NOVA VENDA");
         
         //Busca por datas.
 //        try {
