@@ -179,6 +179,7 @@ public class FrmLogin extends javax.swing.JFrame {
                     String senha = campoSenha.getText();
 
                     FuncionarioDAO.getInstance().efetuarLogin(login, senha);
+                    carregar.setVisible(false);
                     tela.dispose();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Email ou senha inválidos!");

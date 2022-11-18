@@ -584,7 +584,7 @@ public class Frmvendas extends javax.swing.JFrame {
             texto += "Cliente: Nao Informado\n\r";
         }
         
-        texto += "Forma de pagamento: " + vendas.getTipoVenda() + "\n\r";
+        texto += "Forma de pagamento: " + vendas.getFormaPagamento()+ "\n\r";
         
         texto += "ITEM (V.UNIT)                           Total\n\r";
         
