@@ -474,7 +474,17 @@ public class Frmhistorico extends javax.swing.JFrame {
     }//GEN-LAST:event_tblHistoricoMouseClicked
 
     private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
-        Impressora.getInstance().imprimir(texto());
+        final BarraCarregar carregar = new BarraCarregar();
+        carregar.setVisible(true);
+        
+        Thread t = new Thread(){
+            public void run(){
+                Impressora.getInstance().imprimir(texto());
+                carregar.setVisible(false);
+            }
+        };
+        
+        t.start();
         
     }//GEN-LAST:event_btnRelatorioActionPerformed
 
