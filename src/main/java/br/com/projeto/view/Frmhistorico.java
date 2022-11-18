@@ -365,13 +365,6 @@ public class Frmhistorico extends javax.swing.JFrame {
                 credito = vendasCredito.stream().mapToDouble(Vendas::getTotalVenda).sum();
                 total = receita - despesas;
                 
-                System.err.println("dinheiro: " + dinheiro + "\n");
-                System.err.println("pix: " + pix + "\n");
-                System.err.println("debito: " + debito + "\n");
-                System.err.println("credito: " + credito + "\n");
-                System.err.println("receita: " + receita + "\n");
-                System.err.println("despesas: " + despesas + "\n");
-
                 DefaultTableModel historico = (DefaultTableModel) tblHistorico.getModel();
                 historico.setNumRows(0);
 
@@ -555,8 +548,11 @@ public class Frmhistorico extends javax.swing.JFrame {
     
     public String texto(){
         String texto = cabecalho();
-        
-        texto += "VALOR DAS RECEITAS: " + receita + "\n\n\r";
+        texto += "VALOR EM DINHEIRO: " + dinheiro + "\n\r";
+        texto += "VALOR EM PIX: " + pix + "\n\r";
+        texto += "VALOR EM DEBITO: " + debito + "\n\r";
+        texto += "VALOR EM CREDITO: " + credito + "\n\r";
+        texto += "VALOR DAS RECEITAS: " + receita + "\n\r";
         texto += "VALOR DAS DESPESAS: " + despesas + "\n\n\r";
         texto += "VALOR RESTANTE: " + total + "\n\n\r";
         
