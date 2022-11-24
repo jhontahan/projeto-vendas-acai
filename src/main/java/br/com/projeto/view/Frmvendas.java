@@ -597,17 +597,7 @@ public class Frmvendas extends javax.swing.JFrame {
         
         texto += "            *Obrigado pela preferencia* \n\r"
                 + "                   Volte Sempre!\n\r"
-                + "-----------------------------------------------\n\r"+
-                "                                    \n\r" + 
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" ;
+                + "-----------------------------------------------\n\n\n\r";
                 
         
         
@@ -683,7 +673,7 @@ public class Frmvendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecoKeyPressed
 
     private void btnSegundaViaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSegundaViaActionPerformed
-        this.imprimir(texto());
+        Impressora.getInstance().imprimir(texto());
         
     }//GEN-LAST:event_btnSegundaViaActionPerformed
 

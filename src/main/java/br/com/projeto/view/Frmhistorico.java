@@ -301,6 +301,7 @@ public class Frmhistorico extends javax.swing.JFrame {
 
                 if (vendas.isEmpty()){
                   JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!");
+                  carregar.setVisible(false);
                   return;
                 }
 
@@ -556,17 +557,7 @@ public class Frmhistorico extends javax.swing.JFrame {
         texto += "VALOR DAS DESPESAS: " + despesas + "\n\n\r";
         texto += "VALOR RESTANTE: " + total + "\n\n\r";
         
-        texto +="-----------------------------------------------\n\r"+
-                "                                    \n\r" + 
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" ;
+        texto +="-----------------------------------------------\n\n\n\r";
                 
         
         
@@ -619,17 +610,7 @@ public class Frmhistorico extends javax.swing.JFrame {
         
         texto += "            *Obrigado pela preferencia* \n\r"
                 + "                   Volte Sempre!\n\r"
-                + "-----------------------------------------------\n\r"+
-                "                                    \n\r" + 
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" +
-                "                                    \n\r" ;
+                + "-----------------------------------------------\n\n\n\r";
                 
         
         

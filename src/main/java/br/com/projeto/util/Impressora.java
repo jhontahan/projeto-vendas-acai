@@ -37,6 +37,8 @@ public class Impressora {
      public void imprimir(String texto) {
         try {
             
+            texto += acionarGuilhotinaCorteParcial();
+            
             InputStream print = new ByteArrayInputStream(texto.getBytes());
             DocFlavor docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 
@@ -50,6 +52,8 @@ public class Impressora {
             printerAttributes.add(MediaSizeName.ISO_A4);
 
             DocPrintJob printJob = impressora.createPrintJob();
+            
+           
 
             try {
                 printJob.print(documentoTexto, (PrintRequestAttributeSet) printerAttributes);
@@ -63,6 +67,18 @@ public class Impressora {
             System.err.println(e.getMessage());
         }
 
+    }
+     
+      /*    27 105 (corte total)
+          27 109 (corte parcial)
+          29 86 1 (corte total)
+          29 86 0 (corte parcial)*/
+    public static String acionarGuilhotinaCorteTotal() {
+        return "" + (char) 27 + (char) 105;
+    }
+
+    public static String acionarGuilhotinaCorteParcial() {
+        return "" + System.lineSeparator() + (char) 29 + (char) 86 + (char) 0;
     }
      
 }
