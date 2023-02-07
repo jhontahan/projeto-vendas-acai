@@ -538,9 +538,9 @@ public class Frmhistorico extends javax.swing.JFrame {
         String horaAtual = formatter.format(new Date());
         
         return "             ACAI MORENA\n\r" + 
-               "            Avenida principal, 10\n\r" +
+               "            Avenida Principal, 284\n\r" +
                "            (98) 98832-3987\n\r" +
-               "            Cnpj: 222.222.222-22\n\r" +
+//               "            Cnpj: 222.222.222-22\n\r" +
                "-----------------------------------------------\n\r"+
                "      IMPRESSO EM " + horaAtual + "\n\n\r"+
                "  Relatorio de (" + txtDataInicial.getText() + ") a (" + txtDataFinal.getText() + ")\n\n\r";
@@ -570,9 +570,9 @@ public class Frmhistorico extends javax.swing.JFrame {
         String horaAtual = formatter.format(new Date());
         
         return "             ACAI MORENA\n\r" + 
-               "            Avenida principal, 10\n\r" +
+               "            Avenida Principal, 284\n\r" +
                "            (98) 98832-3987\n\r" +
-               "            Cnpj: 222.222.222-22\n\r" +
+//               "            Cnpj: 222.222.222-22\n\r" +
                "-----------------------------------------------\n\r"+
                "      IMPRESSO EM " + horaAtual + "\n\n\r"+
                "        ** NAO E DOCUMENTO FISCAL **\n\n\r" +
